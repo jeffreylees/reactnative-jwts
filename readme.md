@@ -1,3 +1,6 @@
+![React Native Logo][reactnative_logo]
+![JWT.io Logo][jwt_io_logo]
+
 # Adding Authentication to Your React Native App Using JSON Web Tokens
 You have many, many choices out there that can help you get user authentication into your React Native application. The advantages to using JWTs over other, more traditional authentication methods are many. The app will be stateless, and we don’t have to worry about issues like load balancing with sessions or cookie problems. We can authenticate users across multiple domains, integrate easily with other authentication services, and reduce the load on our servers. Sounds great, right?
 
@@ -368,4 +371,7 @@ Go ahead and implement JWT authentication in your own current React Native apps,
 [6]:	https://facebook.github.io/react-native/docs/asyncstorage.html "AsyncStorage - React Native"
 [7]:	https://jwt.io/ "JWT.io"
 
-[image-1]:	http://i.imgur.com/7DJIdip.png "API Sample Test"
+[image-1]:	https://github.com/jeffreylees/reactnative-jwts/tree/master/docs/reactnative-jwts_api-test.png "API Sample Test"
+[reactnative_logo]:	https://github.com/jeffreylees/reactnative-jwts/tree/master/docs/react_native.png "React Native Logo"
+[jwt_io_logo]:	https://github.com/jeffreylees/reactnative-jwts/tree/master/docs/jwt_io.png "JWT.io Logo"
+
