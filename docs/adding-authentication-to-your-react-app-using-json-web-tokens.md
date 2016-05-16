@@ -2,24 +2,29 @@
 ![JWT.io Logo][jwt_io_logo]
 
 # Adding Authentication to Your React Native App Using JSON Web Tokens
+
 You have many, many choices out there that can help you get user authentication into your React Native application. The advantages to using JWTs over other, more traditional authentication methods are many. The app will be stateless, and we don’t have to worry about issues like load balancing with sessions or cookie problems. We can authenticate users across multiple domains, integrate easily with other authentication services, and reduce the load on our servers. Sounds great, right?
 
 Here’s the thing. We, as developers, don’t need more complication in our apps, in our projects, or in our lives. User authentication is always a pain. _Someone_ always wants more SSO options. _Someone_ always wants better security. _Someone_ always finds vulnerabilities. And yes, there are vulnerabilities in any system. But mitigating the _chances_ of problems of all kinds - technical problems, server problems, cookie problems, hacking problems - is what we’re all trying to do all the time, isn’t it? An easy-to-implement token based authentication system provides just that. If we’re building a React Native app, we are probably intending to cover multiple platforms with minimal changes. Let’s take it one step further and have the same stateless authentication procedures for all versions of our app, too. 
 
 ## What We’re Building
+
 This tutorial will demonstrate how to authenticate our users to a React Native app using [JSON Web Tokens][1]. We’ll go ahead and use [this Auth0 sample API][2] as our app’s backend. We’ll be building a little app that deals in the ever-ubiquitous Chuck Norris quotes (Who doesn’t love a good Chuck Norris joke?), and we’ll be authenticating our users with JWTs, which will be the primary purpose of this tutorial.
 
 OK, let’s get started with our setup.
 
 ## Setup and Installations
+
 First, let’s set up a React Native app. We can start with a brand new one, for the purposes of this tutorial, so just spin up a new project. For anyone who is unfamiliar with React Native, the [documentation][3] has an excellent Getting Started page to help get that set up. We also want to go ahead and clone [this Auth0 sample API][4] backend, which employs Node.js, and get it running locally. We can just leave that in a separate folder, and start it up before we begin work on our React Native app. We’ll also want to go ahead and grab [Tcomb’s Form Library][5] for easily adding forms to our app. We can do this most quickly with NPM ( `npm install tcomb-form-native` ).
 
 ## Integrating With Our Backend
+
 OK, so we have our backend downloaded and running locally. Let’s  hit the URL associated with it - by default `http://localhost:3001/api/random-quote`. This will reassure us that our backend that provides fun-filled Chuck Norris quotes is indeed working. OK, and here we go:
 
 ![Test of the JWT API Sample][image-1]
 
 ## Laying Out Our App
+
 Next up, let’s take a look at our starter React Native app, which, if following the tutorial linked above, should look something like this:
 
  
@@ -147,9 +152,11 @@ So, we have the building blocks for our app all set up. What do we want to do wi
 We’re going to need a few parts. For simplicity’s sake, we’ll have one, very simple form, which has two inputs - username and password. The user can opt to either signup or login, depending on whether they already have an account. Once they do so, they’ll be able to click a button to get a Chuck Norris quote in an iOS popup message. 
 
 ### JSON Web Tokens and AsyncStorage
+
 The crux of this demo app, of course, is authenticating our React Native app with JSON Web Tokens. When a user signs up, or logs in, the backend API’s response will be a JWT. Any request to the protected quotes endpoint will include the current user’s saved JWT - if there is one - and this will prove to the backend that the user is, in fact, a logged in, authenticated session and grant them access. So we’ll be using [AsyncStorage][6] for that.
 
 ### What We Need
+
 We’ll need three major methods for this app, among other smaller helpers (and excluding `render`):
 
 1. A method for `_userSignup`, which will `POST` request to the endpoint `/users`, providing a username and a password. If the user doesn’t already exist, it will be created, and a JWT will be returned for the current session. 
@@ -175,6 +182,8 @@ Let’s take a look now at our completed demo app, and then walk through it piec
 
 First and foremost, we have a `STORAGE_KEY` variable that we’re stashing the key we’ll be using in - in this case, `id_token`. We then follow that with the setup for `tcombs` forms library. `Person` will be made up of `username` and `password`, both required fields, both strings. We aren’t adding any extra options, although we certainly could extend the form, or separate the login/signup forms, if we wanted to practice with the forms library we’re using.
 
+### onValueChange
+
 		```
 		async _onValueChange(item, selectedValue) {
 			try {
@@ -186,6 +195,8 @@ First and foremost, we have a `STORAGE_KEY` variable that we’re stashing the k
 		```
 
 `_onValueChange` is called when the value of a AsyncStorage item is changed. It is passed the item and the value, and it changes that value and `sets` it. 
+
+### _getProtectedQuote
 
 		```
 		async _getProtectedQuote() {
@@ -204,11 +215,14 @@ First and foremost, we have a `STORAGE_KEY` variable that we’re stashing the k
 			.done();
 		},
 		```
+
 Getting a quote returns a simple string, which is displayed in a popup. In your real world application, what sort of data could you retrieve via the API for a user that is authenticated to your app via JWTs? The possibilities are endless.
 
 ![Chuck Norris Quote!][image-3]
 
 `_getProtectedQuote` will first call up the stored JWT, `id_token`, if there is one, and will then proceed to issue a `GET` request to our backend API, using the `fetch()` method. This will include an `Authorization` header, which is required to then have the backend verify the signature of our JWT and confirm that it is, in fact, the current token being used by an authorized user of the app. The method response includes an alert popup that contains our Chuck Norris quote, with all it’s wittiness.
+
+### _userSignup
 
 		```
 		_userSignup() {
@@ -240,6 +254,8 @@ Getting a quote returns a simple string, which is displayed in a popup. In your 
 
 `_userSignup` is called by pressing the Signup button, and collects the values of the form fields `username` and `password` before submitting those values via a `POST` request to the backend API. The backend will verify that we are, indeed, signing up a new user and will then return the JWT for the current session. It finally calls the `_onValueChange` method and uses it to set the new token.
 
+### _userLogin
+
 		```
 		_userLogin() {
 			var value = this.refs.form.getValue();
@@ -267,11 +283,14 @@ Getting a quote returns a simple string, which is displayed in a popup. In your 
 			}
 		},
 		```
+
 Logging in as a user returns a simple popup message, but could be harnessed to redirect the user. It also is saving their JWT behind the scenes.
 
 ![Logging In][image-2]
 
 `_userLogin` is called by pressing the Login button. This does the same thing, essentially, as `_userSignup` - it checks for an existing user with these credentials, this time, of course, only accepting the request if there _is_ such a user, and responds with a JWT for us to store. 
+
+### _render
 
 		```
 		render() {
@@ -311,6 +330,7 @@ Logging in as a user returns a simple popup message, but could be harnessed to r
 Again, take a look here [https://github.com/jeffreylees/reactnative-jwts/blob/master/index.ios.js][8] for the completed code.
 
 ## Conclusions
+
 We have an extremely simple demo app here, a single two-field form, and a query that simply grabs a Chuck Norris quote from an API. But even this little dabble into JWT authentication makes us see how incredibly useful it could be for React Native app development. With React Native, developers are able to create applications that perform nearly identically across Android and iOS devices, and coupled with React development for the Web, a fiercely competitive, cross-platform suite emerges. With this amount of cross-device and cross-platform work available, the need for easy authentication emerges, and with JSON Web Tokens, the ease with which it can be implemented on diverse types of applications is incredible. 
 
 Go ahead and implement JWT authentication in your own current React Native apps, or extend our demo app into something far greater, and get involved at [jwt.io][7]!
