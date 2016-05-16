@@ -167,7 +167,6 @@ We’ll need three major methods for this app, among other smaller helpers (and 
 
 Let’s take a look now at our completed demo app, and then walk through it piece by piece. Feel free to try it out and get an idea of what it does, to start with: [https://github.com/jeffreylees/reactnative-jwts/blob/master/index.ios.js][8]
 
-		```
 		var STORAGE_KEY = 'id_token';
 	
 		var Form = t.form.Form;
@@ -178,13 +177,11 @@ Let’s take a look now at our completed demo app, and then walk through it piec
 		});
 		
 		var options = {}; // optional rendering options (see documentation)
-		```
 
 First and foremost, we have a `STORAGE_KEY` variable that we’re stashing the key we’ll be using in - in this case, `id_token`. We then follow that with the setup for `tcombs` forms library. `Person` will be made up of `username` and `password`, both required fields, both strings. We aren’t adding any extra options, although we certainly could extend the form, or separate the login/signup forms, if we wanted to practice with the forms library we’re using.
 
 ### onValueChange
 
-		```
 		async _onValueChange(item, selectedValue) {
 			try {
 				await AsyncStorage.setItem(item, selectedValue);
@@ -192,13 +189,11 @@ First and foremost, we have a `STORAGE_KEY` variable that we’re stashing the k
 				console.log('AsyncStorage error: ' + error.message);
 			}
 		},
-		```
 
 `_onValueChange` is called when the value of a AsyncStorage item is changed. It is passed the item and the value, and it changes that value and `sets` it. 
 
 ### _getProtectedQuote
 
-		```
 		async _getProtectedQuote() {
 			var DEMO_TOKEN = await AsyncStorage.getItem(STORAGE_KEY);
 			fetch("http://localhost:3001/api/protected/random-quote", {
@@ -214,7 +209,6 @@ First and foremost, we have a `STORAGE_KEY` variable that we’re stashing the k
 			})
 			.done();
 		},
-		```
 
 Getting a quote returns a simple string, which is displayed in a popup. In your real world application, what sort of data could you retrieve via the API for a user that is authenticated to your app via JWTs? The possibilities are endless.
 
@@ -224,7 +218,6 @@ Getting a quote returns a simple string, which is displayed in a popup. In your 
 
 ### _userSignup
 
-		```
 		_userSignup() {
 			var value = this.refs.form.getValue();
 			if (value) { // if validation fails, value will be null
@@ -250,13 +243,11 @@ Getting a quote returns a simple string, which is displayed in a popup. In your 
 				.done();
 			}
 		},
-		```
 
 `_userSignup` is called by pressing the Signup button, and collects the values of the form fields `username` and `password` before submitting those values via a `POST` request to the backend API. The backend will verify that we are, indeed, signing up a new user and will then return the JWT for the current session. It finally calls the `_onValueChange` method and uses it to set the new token.
 
 ### _userLogin
 
-		```
 		_userLogin() {
 			var value = this.refs.form.getValue();
 			if (value) { // if validation fails, value will be null
@@ -282,7 +273,6 @@ Getting a quote returns a simple string, which is displayed in a popup. In your 
 				.done();
 			}
 		},
-		```
 
 Logging in as a user returns a simple popup message, but could be harnessed to redirect the user. It also is saving their JWT behind the scenes.
 
@@ -292,7 +282,6 @@ Logging in as a user returns a simple popup message, but could be harnessed to r
 
 ### _render
 
-		```
 		render() {
 			return (
 				<View style={styles.container}>
@@ -323,7 +312,6 @@ Logging in as a user returns a simple popup message, but could be harnessed to r
 				</View>
 			);
 		}
-		```
 
 `render`, last but not least, is what renders our app for the visitor to see. 
 
