@@ -25,14 +25,6 @@ var options = {}; // optional rendering options (see documentation)
 
 var AwesomeProject = React.createClass({
 
-    onPress: function () {
-        // call getValue() to get the values of the form
-        var value = this.refs.form.getValue();
-        if (value) { // if validation fails, value will be null
-            this._userSignup(value);
-        }
-    }, 
-
     async _onValueChange(item, selectedValue) {
         try {
             await AsyncStorage.setItem(item, selectedValue);
@@ -40,25 +32,12 @@ var AwesomeProject = React.createClass({
             console.log('AsyncStorage error: ' + error.message);
         }
     },
-
-    _getQuote: function() {
-        fetch("http://localhost:3001/api/random-quote", {
-            method: "GET",
-        })
-        .then(response => response.text())
-        .then(quote => { 
-            AlertIOS.alert("Chuck Norris Quote:", quote) 
-        });
-    },
  
     async _getProtectedQuote() {
         var DEMO_TOKEN = await AsyncStorage.getItem(STORAGE_KEY);
-        console.log("DEMO_TOKEN: " + DEMO_TOKEN);
         fetch("http://localhost:3001/api/protected/random-quote", {
             method: "GET",
             headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json',
                 'Authorization': 'Bearer ' + DEMO_TOKEN
             }
         })
@@ -86,15 +65,16 @@ var AwesomeProject = React.createClass({
         })
         .then((response) => response.json())
         .then((responseData) => {
-            this._onValueChange(STORAGE_KEY, JSON.stringify(responseData.id_token)),
+            this._onValueChange(STORAGE_KEY, responseData.id_token),
             AlertIOS.alert(
-                "POST Response",
-                "Response Body -> " + JSON.stringify(responseData.id_token)
+                "Signup Success!",
+                "Click the button to get a Chuck Norris quote!"
             )
         })
         .done();
         }
     },
+
     _userLogin: function() {
         var value = this.refs.form.getValue();
         if (value) { // if validation fails, value will be null
@@ -112,10 +92,10 @@ var AwesomeProject = React.createClass({
             .then((response) => response.json())
             .then((responseData) => {
                 AlertIOS.alert(
-                    "POST Response",
-                    "Response Body -> " + JSON.stringify(responseData.id_token)
+                    "Login Success!",
+                    "Click the button to get a Chuck Norris quote!"
                 ),
-                this._onValueChange(STORAGE_KEY, JSON.stringify(responseData.id_token))
+                this._onValueChange(STORAGE_KEY, responseData.id_token)
             })
             .done();
         }
@@ -126,15 +106,6 @@ var AwesomeProject = React.createClass({
             <View style={styles.container}>
                 <View style={styles.row}>
                     <Text style={styles.title}>Signup/Login below for Chuck Norris Quotes!</Text>
-                </View>
-                
-                <View style={styles.row}>
-                    <TouchableHighlight onPress={this._getQuote} style={styles.button}>
-                        <Text>Get a Chuck Norris Quote!</Text>
-                    </TouchableHighlight>
-                </View>
-                <View style={styles.row}>
-                    <Text style={styles.title}>Signup/Login</Text>
                 </View>
                 <View style={styles.row}>
                     <Form
@@ -154,7 +125,7 @@ var AwesomeProject = React.createClass({
                 </View>
                 <View style={styles.row}>    
                     <TouchableHighlight onPress={this._getProtectedQuote} style={styles.button}>
-                        <Text>Get More Satisfying Quotes!</Text>
+                        <Text>Get a Chuck Norris Quote!</Text>
                     </TouchableHighlight>
                 </View>
             </View>
