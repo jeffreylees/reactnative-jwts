@@ -204,6 +204,9 @@ First and foremost, we have a `STORAGE_KEY` variable that we’re stashing the k
 			.done();
 		},
 		```
+Getting a quote returns a simple string, which is displayed in a popup. In your real world application, what sort of data could you retrieve via the API for a user that is authenticated to your app via JWTs? The possibilities are endless.
+
+![Chuck Norris Quote!][image-3]
 
 `_getProtectedQuote` will first call up the stored JWT, `id_token`, if there is one, and will then proceed to issue a `GET` request to our backend API, using the `fetch()` method. This will include an `Authorization` header, which is required to then have the backend verify the signature of our JWT and confirm that it is, in fact, the current token being used by an authorized user of the app. The method response includes an alert popup that contains our Chuck Norris quote, with all it’s wittiness.
 
@@ -264,6 +267,9 @@ First and foremost, we have a `STORAGE_KEY` variable that we’re stashing the k
 			}
 		},
 		```
+Logging in as a user returns a simple popup message, but could be harnessed to redirect the user. It also is saving their JWT behind the scenes.
+
+![Logging In][image-2]
 
 `_userLogin` is called by pressing the Login button. This does the same thing, essentially, as `_userSignup` - it checks for an existing user with these credentials, this time, of course, only accepting the request if there _is_ such a user, and responds with a JWT for us to store. 
 
@@ -323,5 +329,8 @@ Go ahead and implement JWT authentication in your own current React Native apps,
 [8]:	https://github.com/jeffreylees/reactnative-jwts/blob/master/index.ios.js "reactnative-jwts - index.ios.js"
 
 [image-1]:	https://github.com/jeffreylees/reactnative-jwts/blob/master/docs/reactnative-jwts_api-test.png?raw=true "API Sample Test"
+[image-2]:	https://github.com/jeffreylees/reactnative-jwts/blob/master/docs/login.png?raw=true "Sign In Response"
+[image-3]:	https://github.com/jeffreylees/reactnative-jwts/blob/master/docs/quote.png?raw=true "Chuck Norris Quote"
 [reactnative_logo]:	https://github.com/jeffreylees/reactnative-jwts/blob/master/docs/react_native.png?raw=true "React Native Logo"
 [jwt_io_logo]:	https://github.com/jeffreylees/reactnative-jwts/blob/master/docs/jwt_io.png?raw=true "JWT.io Logo"
+
