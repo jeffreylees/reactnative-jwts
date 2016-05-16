@@ -371,6 +371,6 @@ Go ahead and implement JWT authentication in your own current React Native apps,
 [6]:	https://facebook.github.io/react-native/docs/asyncstorage.html "AsyncStorage - React Native"
 [7]:	https://jwt.io/ "JWT.io"
 
-[image-1]:	https://github.com/jeffreylees/reactnative-jwts/tree/master/docs/reactnative-jwts_api-test.png "API Sample Test"
-[reactnative_logo]:	https://github.com/jeffreylees/reactnative-jwts/tree/master/docs/react_native.png "React Native Logo"
-[jwt_io_logo]:	https://github.com/jeffreylees/reactnative-jwts/tree/master/docs/jwt_io.png "JWT.io Logo"
+[image-1]:	https://github.com/jeffreylees/reactnative-jwts/blob/master/docs/reactnative-jwts_api-test.png?raw=true "API Sample Test"
+[reactnative_logo]:	https://github.com/jeffreylees/reactnative-jwts/blob/master/docs/react_native.png?raw=true "React Native Logo"
+[jwt_io_logo]:	https://github.com/jeffreylees/reactnative-jwts/blob/master/docs/jwt_io.png?raw=true "JWT.io Logo"
