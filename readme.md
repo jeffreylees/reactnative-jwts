@@ -97,47 +97,47 @@ So let’s now modify this a bit. First, let’s go ahead and alter the way we�
 Awesome. Also, let’s go ahead and swap out the original stylesheet with the one we’re going to use here: 
 
 	var styles = StyleSheet.create({
-	container: {
-	padding:20,
-	flex: 1,  
-	},
-	row: { 
-	flexDirection: 'row', 
-	margin: 10, 
-	flexWrap: 'wrap',
-	justifyContent: 'center',
-	},
-	buttonText: {
-	fontSize: 16,
-	color: 'white',
-	alignSelf: 'center'
-	},
-	button: {
-	height: 36,
-	backgroundColor: '#B7B7B7',
-	borderColor: '#000000',
-	borderWidth: 1,
-	borderRadius: 8,
-	marginBottom: 10,
-	marginLeft: 10,
-	marginRight: 10,
-	alignSelf: 'stretch',
-	justifyContent: 'center'
-	},
-	form: {
-	width:200
-	},
-	title: {
-	justifyContent: 'center',
-	fontSize: 16,
-	fontWeight: 'bold',
-	},
-	body: {
-	justifyContent: 'center',
-	fontSize: 12,
-	flexWrap: 'wrap',
-	flex: 1,
-	}
+		container: {
+			padding:20,
+			flex: 1,  
+		},
+		row: { 
+			flexDirection: 'row', 
+			margin: 10, 
+			flexWrap: 'wrap',
+			justifyContent: 'center',
+		},
+		buttonText: {
+			fontSize: 16,
+			color: 'white',
+			alignSelf: 'center'
+		},
+		button: {
+			height: 36,
+			backgroundColor: '#B7B7B7',
+			borderColor: '#000000',
+			borderWidth: 1,
+			borderRadius: 8,
+			marginBottom: 10,
+			marginLeft: 10,
+			marginRight: 10,
+			alignSelf: 'stretch',
+			justifyContent: 'center'
+		},
+		form: {
+			width:200
+		,
+		title: {
+			justifyContent: 'center',
+			fontSize: 16,
+			fontWeight: 'bold',
+		},
+		body: {
+			justifyContent: 'center',
+			fontSize: 12,
+			flexWrap: 'wrap',
+			flex: 1,
+		}
 	});
 
 ## Getting Into It
@@ -158,201 +158,151 @@ We’ll need three major methods for this app, among other smaller helpers (and 
 
 ## The App Itself
 
-Let’s take a look now at our completed demo app, and then walk through it piece by piece. Feel free to try it out and get an idea of what it does, to start with:
+Let’s take a look now at our completed demo app, and then walk through it piece by piece. Feel free to try it out and get an idea of what it does, to start with: [https://github.com/jeffreylees/reactnative-jwts/blob/master/index.ios.js][8]
 
-	var React = require('react');
-	var ReactNative = require('react-native');
-	var t = require('tcomb-form-native');
+		```
+		var STORAGE_KEY = 'id_token';
 	
-	var {
-	AppRegistry,
-	AsyncStorage,
-	StyleSheet,
-	Text,
-	View,
-	TouchableHighlight,
-	AlertIOS,
-	} = ReactNative;
-	 
-	var STORAGE_KEY = 'id_token';
-	
-	var Form = t.form.Form;
-	
-	var Person = t.struct({
-	  username: t.String,
-	  password: t.String
-	});
-	
-	var options = {}; // optional rendering options (see documentation)
-	
-	var AwesomeProject = React.createClass({
-	
-	async _onValueChange(item, selectedValue) {
-	try {
-	await AsyncStorage.setItem(item, selectedValue);
-	} catch (error) {
-	console.log('AsyncStorage error: ' + error.message);
-	}
-	},
-	 
-	async _getProtectedQuote() {
-	var DEMO_TOKEN = await AsyncStorage.getItem(STORAGE_KEY);
-	fetch("http://localhost:3001/api/protected/random-quote", {
-	method: "GET",
-	headers: {
-	'Authorization': 'Bearer ' + DEMO_TOKEN
-	}
-	})
-	.then((response) => response.text())
-	.then((quote) => { 
-	AlertIOS.alert(
-	"Chuck Norris Quote:", quote)
-	})
-	.done();
-	},
-	
-	_userSignup: function() {
-	var value = this.refs.form.getValue();
-	if (value) { // if validation fails, value will be null
-	fetch("http://localhost:3001/users", {
-	method: "POST", 
-	headers: {
-	'Accept': 'application/json',
-	'Content-Type': 'application/json'
-	},
-	body: JSON.stringify({
-	username: value.username, 
-	password: value.password, 
-	})
-	})
-	.then((response) => response.json())
-	.then((responseData) => {
-	this._onValueChange(STORAGE_KEY, responseData.id_token),
-	AlertIOS.alert(
-	"Signup Success!",
-		"Click the button to get a Chuck Norris quote!"
-	)
-	})
-	.done();
-	}
-	},
-	
-	_userLogin: function() {
-	var value = this.refs.form.getValue();
-	if (value) { // if validation fails, value will be null
-	fetch("http://localhost:3001/sessions/create", {
-	method: "POST", 
-	headers: {
-	'Accept': 'application/json',
-	'Content-Type': 'application/json'
-	},
-	body: JSON.stringify({
-	username: value.username, 
-	password: value.password, 
-	})
-	})
-	.then((response) => response.json())
-	.then((responseData) => {
-	AlertIOS.alert(
-	    "Login Success!",
-		   "Click the button to get a Chuck Norris quote!"
-	),
-	this._onValueChange(STORAGE_KEY, responseData.id_token)
-	})
-	.done();
-	}
-	},
-	 
-	render: function() {
-	return (
-	<View style={styles.container}>
-	<View style={styles.row}>
-	<Text style={styles.title}>Signup/Login below for Chuck Norris Quotes!</Text>
-	</View>
-	<View style={styles.row}>
-	<Form
-	ref="form"
-	type={Person}
-	options={options}
-	style={styles.form}
-	/>
-	</View>    
-	<View style={styles.row}>
-	<TouchableHighlight style={styles.button} onPress={this._userSignup} underlayColor='#99d9f4'>
-	<Text style={styles.buttonText}>Signup</Text>
-	</TouchableHighlight>
-	<TouchableHighlight style={styles.button} onPress={this._userLogin} underlayColor='#99d9f4'>
-	<Text style={styles.buttonText}>Login</Text>
-	</TouchableHighlight>
-	</View>
-	<View style={styles.row}>    
-	<TouchableHighlight onPress={this._getProtectedQuote} style={styles.button}>
-	<Text>Get a Chuck Norris Quote!</Text>
-	</TouchableHighlight>
-	</View>
-	</View>
-	);
-	}
-	});
-	 
-	var styles = StyleSheet.create({
-	container: {
-	padding:20,
-	flex: 1,  
-	},
-	row: { 
-	flexDirection: 'row', 
-	margin: 10, 
-	flexWrap: 'wrap',
-	justifyContent: 'center',
-	},
-	buttonText: {
-	fontSize: 16,
-	color: 'white',
-	alignSelf: 'center'
-	},
-	button: {
-	height: 36,
-	backgroundColor: '#B7B7B7',
-	borderColor: '#000000',
-	borderWidth: 1,
-	borderRadius: 8,
-	marginBottom: 10,
-	marginLeft: 10,
-	marginRight: 10,
-	alignSelf: 'stretch',
-	justifyContent: 'center'
-	},
-	form: {
-	width:200
-	},
-	title: {
-	justifyContent: 'center',
-	fontSize: 16,
-	fontWeight: 'bold',
-	},
-	body: {
-	justifyContent: 'center',
-	fontSize: 12,
-	flexWrap: 'wrap',
-	flex: 1,
-	}
-	});
-	
-	AppRegistry.registerComponent('AwesomeProject', () => AwesomeProject);
-
+		var Form = t.form.Form;
+		
+		var Person = t.struct({
+		  username: t.String,
+		  password: t.String
+		});
+		
+		var options = {}; // optional rendering options (see documentation)
+		```
 
 First and foremost, we have a `STORAGE_KEY` variable that we’re stashing the key we’ll be using in - in this case, `id_token`. We then follow that with the setup for `tcombs` forms library. `Person` will be made up of `username` and `password`, both required fields, both strings. We aren’t adding any extra options, although we certainly could extend the form, or separate the login/signup forms, if we wanted to practice with the forms library we’re using.
 
+		```
+		async _onValueChange(item, selectedValue) {
+			try {
+				await AsyncStorage.setItem(item, selectedValue);
+			} catch (error) {
+				console.log('AsyncStorage error: ' + error.message);
+			}
+		},
+		```
+
 `_onValueChange` is called when the value of a AsyncStorage item is changed. It is passed the item and the value, and it changes that value and `sets` it. 
+
+		```
+		async _getProtectedQuote() {
+			var DEMO_TOKEN = await AsyncStorage.getItem(STORAGE_KEY);
+			fetch("http://localhost:3001/api/protected/random-quote", {
+				method: "GET",
+				headers: {
+				'Authorization': 'Bearer ' + DEMO_TOKEN
+				}
+			})
+			.then((response) => response.text())
+			.then((quote) => { 
+				AlertIOS.alert(
+				"Chuck Norris Quote:", quote)
+			})
+			.done();
+		},
+		```
 
 `_getProtectedQuote` will first call up the stored JWT, `id_token`, if there is one, and will then proceed to issue a `GET` request to our backend API, using the `fetch()` method. This will include an `Authorization` header, which is required to then have the backend verify the signature of our JWT and confirm that it is, in fact, the current token being used by an authorized user of the app. The method response includes an alert popup that contains our Chuck Norris quote, with all it’s wittiness.
 
+		```
+		_userSignup() {
+			var value = this.refs.form.getValue();
+			if (value) { // if validation fails, value will be null
+				fetch("http://localhost:3001/users", {
+					method: "POST", 
+					headers: {
+						'Accept': 'application/json',
+						'Content-Type': 'application/json'
+					},
+					body: JSON.stringify({
+						username: value.username, 
+						password: value.password, 
+					})
+				})
+				.then((response) => response.json())
+				.then((responseData) => {
+					this._onValueChange(STORAGE_KEY, responseData.id_token),
+					AlertIOS.alert(
+						"Signup Success!",
+						"Click the button to get a Chuck Norris quote!"
+					)
+				})
+				.done();
+			}
+		},
+		```
+
 `_userSignup` is called by pressing the Signup button, and collects the values of the form fields `username` and `password` before submitting those values via a `POST` request to the backend API. The backend will verify that we are, indeed, signing up a new user and will then return the JWT for the current session. It finally calls the `_onValueChange` method and uses it to set the new token.
+
+		```
+		_userLogin() {
+			var value = this.refs.form.getValue();
+			if (value) { // if validation fails, value will be null
+				fetch("http://localhost:3001/sessions/create", {
+					method: "POST", 
+					headers: {
+						'Accept': 'application/json',
+						'Content-Type': 'application/json'
+					},
+					body: JSON.stringify({
+						username: value.username, 
+						password: value.password, 
+					})
+				})
+				.then((response) => response.json())
+				.then((responseData) => {
+					AlertIOS.alert(
+				    	"Login Success!",
+					   "Click the button to get a Chuck Norris quote!"
+					),
+					this._onValueChange(STORAGE_KEY, responseData.id_token)
+				})
+				.done();
+			}
+		},
+		```
 
 `_userLogin` is called by pressing the Login button. This does the same thing, essentially, as `_userSignup` - it checks for an existing user with these credentials, this time, of course, only accepting the request if there _is_ such a user, and responds with a JWT for us to store. 
 
+		```
+		render() {
+			return (
+				<View style={styles.container}>
+					<View style={styles.row}>
+						<Text style={styles.title}>Signup/Login below for Chuck Norris Quotes!</Text>
+					</View>
+					<View style={styles.row}>
+						<Form
+							ref="form"
+							type={Person}
+							options={options}
+							style={styles.form}
+						/>
+					</View>    
+					<View style={styles.row}>
+						<TouchableHighlight style={styles.button} onPress={this._userSignup} underlayColor='#99d9f4'>
+							<Text style={styles.buttonText}>Signup</Text>
+						</TouchableHighlight>
+						<TouchableHighlight style={styles.button} onPress={this._userLogin} underlayColor='#99d9f4'>
+							<Text style={styles.buttonText}>Login</Text>
+						</TouchableHighlight>
+					</View>
+					<View style={styles.row}>    
+						<TouchableHighlight onPress={this._getProtectedQuote} style={styles.button}>
+							<Text>Get a Chuck Norris Quote!</Text>
+						</TouchableHighlight>
+					</View>
+				</View>
+			);
+		}
+		```
+
 `render`, last but not least, is what renders our app for the visitor to see. 
+
+Again, take a look here [https://github.com/jeffreylees/reactnative-jwts/blob/master/index.ios.js][8] for the completed code.
 
 ## Conclusions
 We have an extremely simple demo app here, a single two-field form, and a query that simply grabs a Chuck Norris quote from an API. But even this little dabble into JWT authentication makes us see how incredibly useful it could be for React Native app development. With React Native, developers are able to create applications that perform nearly identically across Android and iOS devices, and coupled with React development for the Web, a fiercely competitive, cross-platform suite emerges. With this amount of cross-device and cross-platform work available, the need for easy authentication emerges, and with JSON Web Tokens, the ease with which it can be implemented on diverse types of applications is incredible. 
@@ -370,6 +320,7 @@ Go ahead and implement JWT authentication in your own current React Native apps,
 [5]:	https://github.com/gcanti/tcomb-form-native "Tcomb's Forms Library"
 [6]:	https://facebook.github.io/react-native/docs/asyncstorage.html "AsyncStorage - React Native"
 [7]:	https://jwt.io/ "JWT.io"
+[8]:	https://github.com/jeffreylees/reactnative-jwts/blob/master/index.ios.js "reactnative-jwts - index.ios.js"
 
 [image-1]:	https://github.com/jeffreylees/reactnative-jwts/blob/master/docs/reactnative-jwts_api-test.png?raw=true "API Sample Test"
 [reactnative_logo]:	https://github.com/jeffreylees/reactnative-jwts/blob/master/docs/react_native.png?raw=true "React Native Logo"

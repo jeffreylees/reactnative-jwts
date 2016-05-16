@@ -49,7 +49,7 @@ var AwesomeProject = React.createClass({
         .done();
     },
 
-    _userSignup: function() {
+    _userSignup() {
         var value = this.refs.form.getValue();
         if (value) { // if validation fails, value will be null
             fetch("http://localhost:3001/users", {
@@ -75,7 +75,7 @@ var AwesomeProject = React.createClass({
         }
     },
 
-    _userLogin: function() {
+    _userLogin() {
         var value = this.refs.form.getValue();
         if (value) { // if validation fails, value will be null
             fetch("http://localhost:3001/sessions/create", {
@@ -101,7 +101,7 @@ var AwesomeProject = React.createClass({
         }
     },
  
-    render: function() {
+    render() {
         return (
             <View style={styles.container}>
                 <View style={styles.row}>
