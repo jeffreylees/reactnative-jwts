@@ -85,7 +85,7 @@ const styles = StyleSheet.create({
 AppRegistry.registerComponent('AwesomeProject', () => AwesomeProject);
 ```
 
-So let’s now modify this a bit. First, let’s go ahead and alter the way we’re grabbing `react-native` - we need to get both `react` and `react-native` (and let’s go ahead and pick up our tcomb library as well) as such:
+So let’s now modify this a bit. First, let’s go ahead and alter the way we’re grabbing `react-native` - we need to get both `react` and `react-native`. Let’s go ahead and pick up our tcomb library as well. Now the start of our app should look something like this:
 
 ```node
 var React = require('react');
@@ -93,62 +93,49 @@ var ReactNative = require('react-native');
 var t = require('tcomb-form-native');
 
 var {
-    AppRegistry,
-    AsyncStorage,
-    StyleSheet,
-    Text,
-    View,
-    TouchableHighlight,
-    AlertIOS,
+  AppRegistry,
+  AsyncStorage,
+  StyleSheet,
+  Text,
+  View,
+  TouchableHighlight,
+  AlertIOS,
 } = ReactNative;
 ```
 
-Awesome. Also, let’s go ahead and swap out the original stylesheet with the one we’re going to use here: 
+Awesome. Also, let’s go ahead and swap out the original stylesheet with the one we’re going to use here, and register our component. These pieces will be at the very end of our app, after the functionality and after `render`: 
 
 ```node
 var styles = StyleSheet.create({
-	container: {
-		padding:20,
-		flex: 1,  
-	},
-	row: { 
-		flexDirection: 'row', 
-		margin: 10, 
-		flexWrap: 'wrap',
-		justifyContent: 'center',
-	},
-	buttonText: {
-		fontSize: 16,
-		color: 'white',
-		alignSelf: 'center'
-	},
-	button: {
-		height: 36,
-		backgroundColor: '#B7B7B7',
-		borderColor: '#000000',
-		borderWidth: 1,
-		borderRadius: 8,
-		marginBottom: 10,
-		marginLeft: 10,
-		marginRight: 10,
-		alignSelf: 'stretch',
-		justifyContent: 'center'
-	},
-	form: {
-		width:200
-	,
-	title: {
-		justifyContent: 'center',
-		fontSize: 16,
-		fontWeight: 'bold',
-	},
-	body: {
-		justifyContent: 'center',
-		fontSize: 12,
-		flexWrap: 'wrap',
-		flex: 1,
-	}
-});	
+  container: {
+    justifyContent: 'center',
+    marginTop: 50,
+    padding: 20,
+    backgroundColor: '#ffffff',
+  },
+  title: {
+    fontSize: 30,
+    alignSelf: 'center',
+    marginBottom: 30
+  },
+  buttonText: {
+    fontSize: 18,
+    color: 'white',
+    alignSelf: 'center'
+  },
+  button: {
+    height: 36,
+    backgroundColor: '#48BBEC',
+    borderColor: '#48BBEC',
+    borderWidth: 1,
+    borderRadius: 8,
+    marginBottom: 10,
+    alignSelf: 'stretch',
+    justifyContent: 'center'
+  },
+});
+
+AppRegistry.registerComponent('AwesomeProject', () => AwesomeProject);
 ```
 
 ## Getting Into It
