@@ -252,6 +252,8 @@ _userSignup() {
 },
 ```
 
+![User Signup][image-4]
+
 `_userSignup` is called by pressing the Signup button, and collects the values of the form fields `username` and `password` before submitting those values via a `POST` request to the backend API. The backend will verify that we are, indeed, signing up a new user and will then return the JWT for the current session. It finally calls the `_onValueChange` method and uses it to set the new token.
 
 ### Logging in Users and Acquiring a JWT
@@ -286,7 +288,7 @@ _userLogin() {
 
 Logging in as a user returns a simple popup message, but could be harnessed to redirect the user. It also is saving their JWT behind the scenes.
 
-![Logging In][image-2]
+![User Login][image-2]
 
 `_userLogin` is called by pressing the Login button. This does the same thing, essentially, as `_userSignup` - it checks for an existing user with these credentials, this time, of course, only accepting the request if there _is_ such a user, and responds with a JWT for us to store. 
 
@@ -326,6 +328,8 @@ render() {
 });
 ```
 
+![Our React Native App][image-5]
+
 `render`, last but not least, is what renders our app for the visitor to see. This is where we output our form, our buttons, and anything else we need the user to see.
 
 Again, take a look here [https://github.com/jeffreylees/reactnative-jwts/blob/master/index.ios.js][8] for the completed code.
@@ -352,6 +356,8 @@ Go ahead and implement JWT authentication in your own current React Native apps,
 [image-1]:	https://github.com/jeffreylees/reactnative-jwts/blob/master/docs/reactnative-jwts_api-test.png?raw=true "API Sample Test"
 [image-2]:	https://github.com/jeffreylees/reactnative-jwts/blob/master/docs/login.png?raw=true "Sign In Response"
 [image-3]:	https://github.com/jeffreylees/reactnative-jwts/blob/master/docs/quote.png?raw=true "Chuck Norris Quote"
+[image-4]:	https://github.com/jeffreylees/reactnative-jwts/blob/master/docs/signup.png?raw=true "Sign Up Response"
+[image-5]:	https://github.com/jeffreylees/reactnative-jwts/blob/master/docs/app.png?raw=true "Our React Native App"
 [reactnative_logo]:	https://github.com/jeffreylees/reactnative-jwts/blob/master/docs/react_native.png?raw=true "React Native Logo"
 [jwt_io_logo]:	https://github.com/jeffreylees/reactnative-jwts/blob/master/docs/jwt_io.png?raw=true "JWT.io Logo"
 
