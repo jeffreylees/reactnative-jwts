@@ -2,6 +2,9 @@ var React = require('react');
 var ReactNative = require('react-native');
 var t = require('tcomb-form-native');
 
+var Auth0Lock = require('react-native-lock');
+var lock = new Auth0Lock({clientId: '9gsHgmOkyIH41676gncbwzynxcPQo4vJ', domain: 'jeffreylees.auth0.com'});
+
 var {
   AppRegistry,
   AsyncStorage,
@@ -74,7 +77,17 @@ var AwesomeProject = React.createClass({
     }
   },
 
-  _userLogin() {
+  _userLogin() { 
+    lock.show({}, (err, profile, token) => {
+      if (err) {
+        console.log(err);
+        return;
+      }
+      // Authentication worked!
+      console.log('Logged in with Auth0!');
+    });
+
+  /*
     var value = this.refs.form.getValue();
     if (value) { // if validation fails, value will be null
       fetch("http://localhost:3001/sessions/create", {
@@ -97,7 +110,7 @@ var AwesomeProject = React.createClass({
         this._onValueChange(STORAGE_KEY, responseData.id_token)
       })
       .done();
-    }
+    } */
   },
 
   render() {

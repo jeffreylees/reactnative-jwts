@@ -9,6 +9,7 @@
     "react": "^0.14.8",
     "react-native": "^0.25.1",
     "react-native-form-generator": "^0.7.2",
+    "react-native-lock": "^0.1.0",
     "react-native-simple-router": "^0.9.2"
   }
 }

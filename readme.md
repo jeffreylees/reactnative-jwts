@@ -334,15 +334,68 @@ render() {
 
 Again, take a look here [https://github.com/jeffreylees/reactnative-jwts/blob/master/index.ios.js][8] for the completed code.
 
+## Aside - Using Auth0 in Your React Native App
+
+If you're convinced that using JSON Web Tokens to authenticate your React Native app is the way to go, take a look at Auth0's [Lock Widget][9]. Auth0 uses JSON Web Tokens for your logins, and also allows easy management of users, and easy integration of other social logins like Twitter or Facebook, or logins from a local database, or even from Active Directory. Let's take a quick look at installing the Auth0 Lock Widget in our React Native app. If you want a more detailed look, pop over to the [Auth0 Documentation][10].
+
+### Adding Lock to our React Native Project
+
+First, we will need to install `CocoaPods`, which is used for fetching native dependencies, using the following command:
+
+```
+gem install cocoapods
+```
+
+Then we need to install `react-native-lock`:
+
+```
+npm install --save react-native-lock
+```
+
+And then, rnpm:
+
+```
+npm install rnpm -g
+```
+
+Finally, link `react-native-lock` with your iOS project.
+
+```
+rnpm link react-native-lock
+```
+
+If you have any trouble, refer to the [Auth0 Documentation][10] for more information.
+
+### Implementing the Lock Widget
+
+OK, so everything is installed, let's get our Lock Widget going. Start out with our requirements:
+
+```
+var Auth0Lock = require('react-native-lock');
+var lock = new Auth0Lock({clientId: YOUR_CLIENT_ID, domain: YOUR_DOMAIN});
+```
+You get the client ID and the domain from your Auth0 dashboard. Create your app there, and then take down the values needed and paste them in here.
+
+Finally, you implement the Lock Widget. In the above app, this could be nested into `_userLogin` (removing the rest of its content) perhaps, to show when a user clicks the login button, or we could simply start out with a view of only the Lock Widget and then let a user proceed from there. How you want to implement it is entirely up to you!
+
+```node
+lock.show({}, (err, profile, token) => {
+  if (err) {
+    console.log(err);
+    return;
+  }
+  // Authentication worked!
+  console.log('Logged in with Auth0!');
+});
+```
+
+When the login is successful, the callback will give `profile` and `token` parameters, which could be used to display further user information, if we were to expand our app and collect more user data. This could be particularly useful for welcoming a user (Hello, John!) or for displaying a brief profile. Again, how you want to expand from here is all up to you! Check out the [Auth0 Documentation][10] for more information on the Lock Widget, as well as the others, such as the Passwordless widgets.
+
 ## Conclusions
 
 We have an extremely simple demo app here, a single two-field form, and a query that simply grabs a Chuck Norris quote from an API. But even this little dabble into JWT authentication makes us see how incredibly useful it could be for React Native app development. With React Native, developers are able to create applications that perform nearly identically across Android and iOS devices, and coupled with React development for the Web, a fiercely competitive, cross-platform suite emerges. With this amount of cross-device and cross-platform work available, the need for easy authentication emerges, and with JSON Web Tokens, the ease with which it can be implemented on diverse types of applications is incredible. 
 
 Go ahead and implement JWT authentication in your own current React Native apps, or extend our demo app into something far greater, and get involved at [jwt.io][7]!
-
-
-
-
 
 [1]:	https://jwt.io/introduction/ "What are JSON Web Tokens?"
 [2]:	https://github.com/auth0-blog/nodejs-jwt-authentication-sample "Auth0 JWT Sample Authentication API"
@@ -352,6 +405,8 @@ Go ahead and implement JWT authentication in your own current React Native apps,
 [6]:	https://facebook.github.io/react-native/docs/asyncstorage.html "AsyncStorage - React Native"
 [7]:	https://jwt.io/ "JWT.io"
 [8]:	https://github.com/jeffreylees/reactnative-jwts/blob/master/index.ios.js "reactnative-jwts - index.ios.js"
+[9]:  https://auth0.com/lock "Auth0 Lock Widget"
+[10]: https://auth0.com/docs/quickstart/native-mobile/react-native-ios/no-api "Auth0 Quickstart Documentation - React Native"
 
 [image-1]:	https://github.com/jeffreylees/reactnative-jwts/blob/master/docs/reactnative-jwts_api-test.png?raw=true "API Sample Test"
 [image-2]:	https://github.com/jeffreylees/reactnative-jwts/blob/master/docs/login.png?raw=true "Sign In Response"
