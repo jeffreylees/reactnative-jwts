@@ -3,19 +3,24 @@
 
 # Adding Authentication to Your React Native App Using JSON Web Tokens
 
+## TL;DR
+We're going to look at getting started with a very simple React Native app and the use of JSON Web Tokens to provide authentication for it. React Native is an innovative way to use a common language to build native apps for multiple platforms, and JWTs go nicely along with it to provide stateless authentication for our users that integrates well with almost any service we would need. A perfect combination! Let's get started!
+
+## Getting Started
+
 **React** is one of the most popular JavaScript libraries in the wild today, and for good reason. With the backing of a giant like Facebook, the effort was bound to go far, even with the initial skepticism with which it was met. React does some interesting things, introducing **JSX**, combining the JS and HTML in apps. But the use of React has skyrocketed over time, and **React Native** is its next iteration. React Native aims to allow developers to build React applications that will run natively on iOS and Android devices. This, of course, opens up a _huge_ array of options for developers, who are now able to build a native mobile app alongside a web app, reusing a significant portion of the code. Using React _everywhere_ will create harmony amongst an organization's web and mobile offerings, and it makes it an excellent choice as a platform.
 
-Speaking of choices, we have many, many choices out there that can help us with user authentication. One such method of authentication in our React Native app is [JSON Web Tokens][7]. The advantages to using JWTs over other, more traditional authentication methods are many. The app will be stateless, and we don’t have to worry about issues like load balancing with sessions or cookie problems. We can authenticate users across multiple domains, integrate easily with other authentication services, and reduce the load on our servers. Sounds great, right?
+Speaking of choices, we have many, many choices out there that can help us with user authentication. One such method of authentication in our React Native app is [JSON Web Tokens][7]. The advantages to using JWTs over other, more _traditional_ authentication methods are many. The app will be stateless, and we don’t have to worry about issues like load balancing with sessions, or cookie problems. We can authenticate users across multiple domains, integrate easily with other authentication services, and reduce the load on our servers. Sounds great, right?
 
 Here’s the thing. We, as developers, don’t need more complication in our apps, in our projects, or in our lives. User authentication is always a pain. _Someone_ always wants more SSO options. _Someone_ always wants better security. _Someone_ always finds vulnerabilities. And yes, there are vulnerabilities in any system. But mitigating the _chances_ of problems of all kinds - technical problems, server problems, cookie problems, hacking problems - is what we’re all trying to do all the time, isn’t it? An easy-to-implement token-based authentication system provides just that. If we’re building a React Native app, we are probably intending to cover multiple platforms with minimal changes. Let’s take it one step further and have the same stateless authentication procedures for all versions of our app, too. 
 
-## What We’re Building
+### What We’re Building
 
 This tutorial will demonstrate how to authenticate our users to a React Native app using [JSON Web Tokens][1]. We’ll go ahead and use [this Auth0 sample API][2] as our app’s backend. We’ll be building a little app that deals in the ever-ubiquitous Chuck Norris quotes (Who doesn’t love a good Chuck Norris joke?), and we’ll be authenticating our users with JWTs, which will be the primary purpose of this tutorial. We'll be developing using the iOS Simulator in this tutorial, but Android options are also available via React Native's documentation.
 
 OK, let’s get started with our setup.
 
-## Setup and Installation
+### Setup and Installation
 
 First, we should cover the basics. You'll need to have [Node.js installed][12], and you'll need to have [Xcode installed][11] if you're developing on OS X, as we are in this tutorial. OK, let’s start by setting up a React Native app. We can start with a brand new one, for the purposes of this tutorial, so just spin up a new project. For anyone who is unfamiliar with React Native, the [documentation][3] has an excellent Getting Started page to help get that set up. If you follow along with the Getting Started post, you’ll have already set up and run your starting project with `react-native run-ios` and will now have the iOS Simulator up and going with your starter app in it. We'll use that as we build our app, to see what we're doing and debug our work. If you didn't use the Getting Started article as a basis, make sure you have the iOS Simulator running before we begin.
 
@@ -144,7 +149,7 @@ AppRegistry.registerComponent('AwesomeProject', () => AwesomeProject);
 
 So, we have the building blocks for our app all set up. What do we want to do with it?
 
-We’re going to need a few parts. For simplicity’s sake, we’ll have one, very simple form, which has two inputs - username and password. The user can opt to either signup or login, depending on whether they already have an account. Once they do so, they’ll be able to click a button to get a Chuck Norris quote in an iOS popup message. 
+We’re going to need a few parts. For simplicity’s sake, we’ll have one, very simple form, which has two inputs - username and password. The user can opt to signup, login, or logout, depending on whether they already have an account. Once they are signed up or logged in, they’ll be able to click a button to get a Chuck Norris quote in an iOS popup message. When logged out, or before signing up, they'll get an error.
 
 ### JSON Web Tokens and AsyncStorage
 
@@ -414,29 +419,31 @@ When the login is successful, the callback will give `profile` and `token` param
 
 ## Conclusions
 
-We have an extremely simple demo app here, a single two-field form, and a query that simply grabs a Chuck Norris quote from an API. But even this little dabble into JWT authentication makes us see how incredibly useful it could be for React Native app development. With React Native, developers are able to create applications that perform nearly identically across Android and iOS devices, and coupled with React development for the Web, a fiercely competitive, cross-platform suite emerges. With this amount of cross-device and cross-platform work available, the need for easy authentication emerges, and with JSON Web Tokens, the ease with which it can be implemented on diverse types of applications is incredible. 
+We have an extremely simple demo app here, a single two-field form, and a query that simply grabs a Chuck Norris quote from an API. If we want to further the exercise and get deeper into React Native, we could look up some information on routing to split the app into separate views, or do some research and learn about the conundrum of conditionals in JSX. 
+
+But even this little dabble into JWT authentication makes us see how incredibly useful it could be for React Native app development. With React Native, developers are able to create applications that perform nearly identically across Android and iOS devices, and coupled with React development for the Web, a fiercely competitive, cross-platform suite emerges. With this amount of cross-device and cross-platform work available, the need for easy authentication emerges, and with JSON Web Tokens, the ease with which it can be implemented on diverse types of applications is incredible. 
 
 Go ahead and implement JWT authentication in your own current React Native apps, or extend our demo app into something far greater, and get involved at [jwt.io][7]!
 
-[1]:	https://jwt.io/introduction/ "What are JSON Web Tokens?"
-[2]:	https://github.com/auth0-blog/nodejs-jwt-authentication-sample "Auth0 JWT Sample Authentication API"
-[3]:	https://facebook.github.io/react-native/docs/getting-started.html#content "React Native - Getting Started"
-[4]:	https://github.com/auth0-blog/nodejs-jwt-authentication-sample "Auth0 JWT Sample Authentication API"
-[5]:	https://github.com/gcanti/tcomb-form-native "Tcomb's Forms Library"
-[6]:	https://facebook.github.io/react-native/docs/asyncstorage.html "AsyncStorage - React Native"
-[7]:	https://jwt.io/ "JWT.io"
-[8]:	https://github.com/jeffreylees/reactnative-jwts/blob/master/index.ios.js "reactnative-jwts - index.ios.js"
+[1]:  https://jwt.io/introduction/ "What are JSON Web Tokens?"
+[2]:  https://github.com/auth0-blog/nodejs-jwt-authentication-sample "Auth0 JWT Sample Authentication API"
+[3]:  https://facebook.github.io/react-native/docs/getting-started.html#content "React Native - Getting Started"
+[4]:  https://github.com/auth0-blog/nodejs-jwt-authentication-sample "Auth0 JWT Sample Authentication API"
+[5]:  https://github.com/gcanti/tcomb-form-native "Tcomb's Forms Library"
+[6]:  https://facebook.github.io/react-native/docs/asyncstorage.html "AsyncStorage - React Native"
+[7]:  https://jwt.io/ "JWT.io"
+[8]:  https://github.com/jeffreylees/reactnative-jwts/blob/master/index.ios.js "reactnative-jwts - index.ios.js"
 [9]:  https://auth0.com/lock "Auth0 Lock Widget"
 [10]: https://auth0.com/docs/quickstart/native-mobile/react-native-ios/no-api "Auth0 Quickstart Documentation - React Native"
 [11]: https://developer.apple.com/xcode/ "XCode"
 [12]: https://nodejs.org/en/download/ "Node.js"
 
-[image-1]:	https://github.com/jeffreylees/reactnative-jwts/blob/master/docs/reactnative-jwts_api-test.png?raw=true "API Sample Test"
-[image-2]:	https://github.com/jeffreylees/reactnative-jwts/blob/master/docs/login.png?raw=true "Sign In Response"
-[image-3]:	https://github.com/jeffreylees/reactnative-jwts/blob/master/docs/quote.png?raw=true "Chuck Norris Quote"
-[image-4]:	https://github.com/jeffreylees/reactnative-jwts/blob/master/docs/signup.png?raw=true "Sign Up Response"
-[image-5]:	https://github.com/jeffreylees/reactnative-jwts/blob/master/docs/app.png?raw=true "Our React Native App"
+[image-1]:  https://github.com/jeffreylees/reactnative-jwts/blob/master/docs/reactnative-jwts_api-test.png?raw=true "API Sample Test"
+[image-2]:  https://github.com/jeffreylees/reactnative-jwts/blob/master/docs/login.png?raw=true "Sign In Response"
+[image-3]:  https://github.com/jeffreylees/reactnative-jwts/blob/master/docs/quote.png?raw=true "Chuck Norris Quote"
+[image-4]:  https://github.com/jeffreylees/reactnative-jwts/blob/master/docs/signup.png?raw=true "Sign Up Response"
+[image-5]:  https://github.com/jeffreylees/reactnative-jwts/blob/master/docs/app.png?raw=true "Our React Native App"
 [image-6]:  https://github.com/jeffreylees/reactnative-jwts/blob/master/docs/logout.png?raw=true "Sign In Response"
-[reactnative_logo]:	https://github.com/jeffreylees/reactnative-jwts/blob/master/docs/react_native.png?raw=true "React Native Logo"
-[jwt_io_logo]:	https://github.com/jeffreylees/reactnative-jwts/blob/master/docs/jwt_io.png?raw=true "JWT.io Logo"
+[reactnative_logo]: https://github.com/jeffreylees/reactnative-jwts/blob/master/docs/react_native.png?raw=true "React Native Logo"
+[jwt_io_logo]:  https://github.com/jeffreylees/reactnative-jwts/blob/master/docs/jwt_io.png?raw=true "JWT.io Logo"
 
