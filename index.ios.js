@@ -2,9 +2,6 @@ var React = require('react');
 var ReactNative = require('react-native');
 var t = require('tcomb-form-native');
 
-var Auth0Lock = require('react-native-lock');
-var lock = new Auth0Lock({clientId: '9gsHgmOkyIH41676gncbwzynxcPQo4vJ', domain: 'jeffreylees.auth0.com'});
-
 var {
   AppRegistry,
   AsyncStorage,
@@ -27,6 +24,7 @@ var Person = t.struct({
 const options = {};
 
 var AwesomeProject = React.createClass({
+
   async _onValueChange(item, selectedValue) {
     try {
       await AsyncStorage.setItem(item, selectedValue);
@@ -49,6 +47,15 @@ var AwesomeProject = React.createClass({
         "Chuck Norris Quote:", quote)
     })
     .done();
+  },
+
+  async _userLogout() {
+    try {
+      await AsyncStorage.removeItem(STORAGE_KEY);
+      AlertIOS.alert("Logout Success!")
+    } catch (error) {
+      console.log('AsyncStorage error: ' + error.message);
+    }
   },
 
   _userSignup() {
@@ -78,16 +85,6 @@ var AwesomeProject = React.createClass({
   },
 
   _userLogin() { 
-    lock.show({}, (err, profile, token) => {
-      if (err) {
-        console.log(err);
-        return;
-      }
-      // Authentication worked!
-      console.log('Logged in with Auth0!');
-    });
-
-  /*
     var value = this.refs.form.getValue();
     if (value) { // if validation fails, value will be null
       fetch("http://localhost:3001/sessions/create", {
@@ -110,7 +107,7 @@ var AwesomeProject = React.createClass({
         this._onValueChange(STORAGE_KEY, responseData.id_token)
       })
       .done();
-    } */
+    } 
   },
 
   render() {
@@ -125,13 +122,16 @@ var AwesomeProject = React.createClass({
             type={Person}
             options={options}
           />
-        </View>    
+        </View>  
         <View style={styles.row}>
           <TouchableHighlight style={styles.button} onPress={this._userSignup} underlayColor='#99d9f4'>
             <Text style={styles.buttonText}>Signup</Text>
           </TouchableHighlight>
           <TouchableHighlight style={styles.button} onPress={this._userLogin} underlayColor='#99d9f4'>
             <Text style={styles.buttonText}>Login</Text>
+          </TouchableHighlight>
+          <TouchableHighlight style={styles.button} onPress={this._userLogout} underlayColor='#99d9f4'>
+            <Text style={styles.buttonText}>Logout</Text>
           </TouchableHighlight>
         </View>
         <View style={styles.row}>    
@@ -174,4 +174,3 @@ var styles = StyleSheet.create({
 });
 
 AppRegistry.registerComponent('AwesomeProject', () => AwesomeProject);
-
